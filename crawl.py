@@ -1,5 +1,5 @@
 # tcrawl.py Crawls Twitter for the trends in hashtags.txt 
-# To run: python crawl.py hashtags.txt path_to_store_tweets 
+# To run: python3 crawl.py hashtags.txt path_to_store_tweets 
 # Output: will create a file for tweets crawled for each trending topic/hasht
 
 # Import the necessary methods from tweepy library
@@ -12,20 +12,24 @@ from tweepy import API
 from tweepy import Cursor
 from tweepy import TweepyException
 
+import json
+
 import warnings
 warnings.filterwarnings("ignore")
 
+keyFile = open('credentials.json')
+apiKeys = json.load(keyFile);
+
 # Variables that contains the user credentials to access Twitter API 
-# # keys from  "Twitter Tweet Summarization" app
-access_token = '1395621591468306433-yB2Xj0dUtCl60iYDspEjq2eBuGubwW'
-access_token_secret = "ssfp9kpkDkxNlyHjlVZL0uSIqxVrJ1hKnURwbKyOBpUEu"
-consumer_key = "FIKIk9765mOgxYV86tBhRviu1"
-consumer_secret = "gVSiUWUOVCyCm5HBu0YY1Q7vr7Us8mRgeBh5ixZ3kB1TqkCtVG"
+access_token = apiKeys['access_token']
+access_token_secret = apiKeys['access_token_secret']
+consumer_key = apiKeys['consumer_key']
+consumer_secret = apiKeys['consumer_secret']
 
 import os.path
 current_path = os.path.dirname(__file__)
 
-RELATIVE_DIR = "\data\\"
+RELATIVE_DIR = "\data"
 DATA_FOLDER = sys.argv[2]
 print(DATA_FOLDER)
 
@@ -119,7 +123,7 @@ if __name__ == '__main__':
 		# if(isEnglish(topic)):    		
 		# print(type(topic))
 		print(type(topic.encode('utf-8').strip()))
-		query_through_search(topic)
+		query_through_search(topic.strip())
 
 
 	

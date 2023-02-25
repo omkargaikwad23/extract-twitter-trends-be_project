@@ -2,14 +2,19 @@
 
 import tweepy
 import time, sys 
+import json
 
 import warnings
 warnings.filterwarnings("ignore")
 
-ACCESS_TOKEN = '1395621591468306433-yB2Xj0dUtCl60iYDspEjq2eBuGubwW'
-ACCESS_TOKEN_SECRET = 'ssfp9kpkDkxNlyHjlVZL0uSIqxVrJ1hKnURwbKyOBpUEu'
-CONSUMER_KEY = 'FIKIk9765mOgxYV86tBhRviu1'
-CONSUMER_SECRET = "gVSiUWUOVCyCm5HBu0YY1Q7vr7Us8mRgeBh5ixZ3kB1TqkCtVG"
+keyFile = open('credentials.json')
+apiKeys = json.load(keyFile);
+
+# Variables that contains the user credentials to access Twitter API 
+ACCESS_TOKEN = apiKeys['access_token']
+ACCESS_TOKEN_SECRET =  apiKeys['access_token_secret']
+CONSUMER_KEY = apiKeys['consumer_key']
+CONSUMER_SECRET = apiKeys['consumer_secret']
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)

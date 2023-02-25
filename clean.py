@@ -1,5 +1,6 @@
 # clean.py Removes twitter specific stop words from the data 
 # To run: python3 clean.py path_to_tweets_folder path_to_store_tweets 
+# Command: python3 clean.py data cleaned
 # Output: a file for tweets pertaining to each topic/hashtag
 
 import sys

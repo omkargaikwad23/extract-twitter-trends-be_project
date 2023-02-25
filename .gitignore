@@ -1,1 +1,4 @@
-/bin
+/bin_folder
+/actual
+/predicted
+credentials.json
