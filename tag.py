@@ -1,10 +1,10 @@
 import sys
 import os
 import nltk
-# from nltk.corpus import stopwords
-# nltk.download('stopwords')
+from nltk.corpus import stopwords
+nltk.download('stopwords')
 from nltk import word_tokenize
-from nltk import pos_tag
+from nltk.tag import pos_tag
 
 
 """
@@ -25,6 +25,7 @@ stop_words = dict()
 
 def tag(path, filename):
 	print("Tagging "+path)
+	# filename = PREPROCESSED_DATA + filename.strip()
 	WRITE_HANDLER = open(PREPROCESSED_DATA + filename.strip() + "_features", 'w')
 	for line in open(path, 'r'):	
 		tokens = line.split()
@@ -53,6 +54,7 @@ def get_stop_words():
 
 CLEANED_DATA_DIR = sys.argv[1]
 get_stop_words()	
+
 for root, dirs, files in os.walk(CLEANED_DATA_DIR): # gets all the files from subfolders recrsively
 	for name in files:
 		absolute_path = os.path.join(root, name)

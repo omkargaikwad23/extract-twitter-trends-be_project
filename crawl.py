@@ -4,20 +4,18 @@
 
 # Import the necessary methods from tweepy library
 import sys
+import json
 
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy import API
-from tweepy import Cursor
 from tweepy import TweepyException
-
-import json
 
 import warnings
 warnings.filterwarnings("ignore")
 
-keyFile = open('credentials.json')
+keyFile = open('secret.json')
 apiKeys = json.load(keyFile);
 
 # Variables that contains the user credentials to access Twitter API 
@@ -29,9 +27,9 @@ consumer_secret = apiKeys['consumer_secret']
 import os.path
 current_path = os.path.dirname(__file__)
 
-RELATIVE_DIR = "\data"
+
 DATA_FOLDER = sys.argv[2]
-print(DATA_FOLDER)
+print("writing raw data in folder: ", DATA_FOLDER)
 
 # This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(Stream):
@@ -48,8 +46,9 @@ def query_through_stream(topic):
 def query_through_search(query):
 	# print(type(DATA_FOLDER), print(type(query)))
 	# print(DATA_FOLDER)
-	print(query)
-	TOPIC_DATA_HANDLER = open(DATA_FOLDER+ query, 'w')
+
+	filename = os.path.join(DATA_FOLDER, query.strip())
+	TOPIC_DATA_HANDLER = open(filename, 'w')
 	api = API(auth)
 	
 	tweets = dict()
@@ -121,7 +120,6 @@ if __name__ == '__main__':
 	TOPICS = sys.argv[1]
 	for topic in open(TOPICS, 'r'):
 		# if(isEnglish(topic)):    		
-		# print(type(topic))
 		print(type(topic.encode('utf-8').strip()))
 		query_through_search(topic.strip())
 

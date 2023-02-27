@@ -2,6 +2,7 @@
 # To run: python3 clean.py path_to_tweets_folder path_to_store_tweets 
 # Command: python3 clean.py data cleaned
 # Output: a file for tweets pertaining to each topic/hashtag
+# output is in cleaned folder
 
 import sys
 import os
@@ -13,11 +14,11 @@ from nltk import pos_tag
 				
 def clean(path, filename):
 	
-	filename = CLEANED_DATA + filename.strip()
+	filename = os.path.join(CLEANED_DATA, filename.strip())
 	WRITE_HANDLER = open(filename, 'w')
 	tweets = dict()
+
 	for line in open(path, 'r'):
-		
 		line = re.sub(r'[.,"!]+', '', line, flags=re.MULTILINE) # removes the characters specified
 		line = re.sub(r'^RT[\s]+', '', line, flags=re.MULTILINE) # removes RT
 		line = re.sub(r'https?:\/\/.*[\r\n]*', '', line, flags=re.MULTILINE) #remove link
@@ -46,7 +47,7 @@ CLEANED_DATA = sys.argv[2]
 for root, dirs, files in os.walk(DATA_FOLDER): # gets all the files from subfolders recrsively
 	for name in files:
 		absolute_path = os.path.join(root, name)
-		print(absolute_path)
+		print(name, absolute_path)
 		if os.path.isfile(absolute_path) and name != ".DS_Store":
 			filename = clean(absolute_path, name)
 			
