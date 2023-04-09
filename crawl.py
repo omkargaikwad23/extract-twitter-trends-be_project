@@ -1,10 +1,11 @@
 # tcrawl.py Crawls Twitter for the trends in hashtags.txt 
-# To run: python3 crawl.py hashtags.txt path_to_store_tweets 
+# To run: python3 crawl.py
 # Output: will create a file for tweets crawled for each trending topic/hasht
 
 # Import the necessary methods from tweepy library
 import sys
 import json
+import os
 
 from tweepy import Stream
 from tweepy import OAuthHandler
@@ -24,12 +25,9 @@ access_token_secret = apiKeys['access_token_secret']
 consumer_key = apiKeys['consumer_key']
 consumer_secret = apiKeys['consumer_secret']
 
-import os.path
-current_path = os.path.dirname(__file__)
 
-
-DATA_FOLDER = sys.argv[2]
-print("writing raw data in folder: ", DATA_FOLDER)
+CWD = os.getcwd()
+DATA_FOLDER = os.path.join(CWD, "data")
 
 # This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(Stream):
@@ -44,8 +42,6 @@ def query_through_stream(topic):
     stream.filter(track=[topic])
 
 def query_through_search(query):
-	# print(type(DATA_FOLDER), print(type(query)))
-	# print(DATA_FOLDER)
 
 	filename = os.path.join(DATA_FOLDER, query.strip())
 	TOPIC_DATA_HANDLER = open(filename, 'w')
@@ -117,10 +113,10 @@ if __name__ == '__main__':
 	l = StdOutListener(consumer_key, consumer_secret, access_token, access_token_secret)
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
-	TOPICS = sys.argv[1]
+	TOPICS = os.path.join(CWD, "hashtags.txt")
 	for topic in open(TOPICS, 'r'):
 		# if(isEnglish(topic)):    		
-		print(type(topic.encode('utf-8').strip()))
+			# print(type(topic.encode('utf-8').strip()))
 		query_through_search(topic.strip())
 
 

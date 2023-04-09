@@ -1,5 +1,6 @@
 # to run: python3 TrendingHashtags.py > hashtags.txt
 
+import os
 import tweepy
 import time, sys 
 import json
@@ -23,11 +24,11 @@ api = tweepy.API(auth)
 
 trending = api.get_place_trends(id = 44418)
 
+CWD = os.getcwd()
+filename = os.path.join(CWD, "hashtags.txt")
+DATA_WRITER = open(filename, "w")
+
 #Trending topics
 topics = [x['name'] for x in trending[0]['trends']]
 for topic in topics:
-	print(topic)
-	
-# Trending hash tags
-#hashtags = [x['name'] for x in trending[0]['trends'] if x['name'].startswith('#')]
-#print hashtags
+	DATA_WRITER.write(topic + '\n')

@@ -40,9 +40,10 @@ def clean(path, filename):
 		if(len(new_line.strip())>0):
 			WRITE_HANDLER.write(new_line + '\n\n')				
 	return filename
-			
-DATA_FOLDER = sys.argv[1]
-CLEANED_DATA = sys.argv[2]
+
+CWD = os.getcwd()		
+DATA_FOLDER = os.path.join(CWD, "data")
+CLEANED_DATA = os.path.join(CWD, "cleaned")
 
 for root, dirs, files in os.walk(DATA_FOLDER): # gets all the files from subfolders recrsively
 	for name in files:

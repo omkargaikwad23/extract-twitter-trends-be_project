@@ -1,31 +1,18 @@
 import sys
 import os
-import nltk
 from nltk.corpus import stopwords
-nltk.download('stopwords')
 from nltk import word_tokenize
-from nltk.tag import pos_tag
-
+from nltk import pos_tag
 
 """
 Input : Folder containing all the cleaned data
 Output : Tagged output for each file in input
 """
 
-stopwords = []
-
-# Stopwords are stored in a file stopwords.txt
-with open('stopwords.txt', 'r') as f:
-	for line in f:
-		word = line.strip('\n')
-		stopwords.append(word)
-
 PREPROCESSED_DATA = "preprocessed/"
 stop_words = dict()
 
 def tag(path, filename):
-	print("Tagging "+path)
-	# filename = PREPROCESSED_DATA + filename.strip()
 	WRITE_HANDLER = open(PREPROCESSED_DATA + filename.strip() + "_features", 'w')
 	for line in open(path, 'r'):	
 		tokens = line.split()
@@ -47,17 +34,16 @@ def tag(path, filename):
 def get_stop_words():
 	if(len(stop_words)>0):
 		return stop_words		
-	# stop = stopwords.words('english') ## Stop chars
-	# for s in stop:
-	# 	stop_words[s] = 1
+	stop = stopwords.words('english') ## Stop chars
+	for s in stop:
+		stop_words[s] = 1
 	return stop_words
 
-CLEANED_DATA_DIR = sys.argv[1]
-get_stop_words()	
+CLEANED_DATA_DIR = os.path.join(os.getcwd(), "cleaned")
 
+get_stop_words()	
 for root, dirs, files in os.walk(CLEANED_DATA_DIR): # gets all the files from subfolders recrsively
 	for name in files:
 		absolute_path = os.path.join(root, name)
 		if os.path.isfile(absolute_path) and name != ".DS_Store":
-			tag(absolute_path, name)		
-			
+			tag(absolute_path, name)
