@@ -49,11 +49,11 @@ def query_through_search(query):
 	
 	tweets = dict()
 	# # Initialization ## 
-	max_tweets = 500
+	max_tweets = 50
 	tweet_count = 0
 	max_id = -1
 	since_id = None
-	tweet_per_query = 100
+	tweet_per_query = 50
 	
 	# print("Downloading tweets for query : "+query)
 	while tweet_count < max_tweets:
@@ -115,6 +115,9 @@ if __name__ == '__main__':
 	auth.set_access_token(access_token, access_token_secret)
 	TOPICS = os.path.join(CWD, "hashtags.txt")
 	for topic in open(TOPICS, 'r'):
+		print(topic)
+		if(topic == "" or len(topic) == 0):
+			continue
 		# if(isEnglish(topic)):    		
 			# print(type(topic.encode('utf-8').strip()))
 		query_through_search(topic.strip())

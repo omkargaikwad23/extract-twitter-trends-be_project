@@ -2,7 +2,6 @@
 
 import os
 import tweepy
-import time, sys 
 import json
 
 import warnings
@@ -30,5 +29,9 @@ DATA_WRITER = open(filename, "w")
 
 #Trending topics
 topics = [x['name'] for x in trending[0]['trends']]
+hashtagCount = 0
 for topic in topics:
+	hashtagCount += 1
 	DATA_WRITER.write(topic + '\n')
+	if hashtagCount == 5:
+		break

@@ -13,10 +13,12 @@ from nltk import word_tokenize
 from nltk import pos_tag
 				
 def clean(path, filename):
-	
 	filename = os.path.join(CLEANED_DATA, filename.strip())
 	WRITE_HANDLER = open(filename, 'w')
 	tweets = dict()
+
+	para = ''''''
+	paraTokenCount = 0
 
 	for line in open(path, 'r'):
 		line = re.sub(r'[.,"!]+', '', line, flags=re.MULTILINE) # removes the characters specified
@@ -30,15 +32,28 @@ def clean(path, filename):
 		for i in line: # remove @ and #words, punctuataion
 			if not i.startswith('@') and not i.startswith('#') and i not in string.punctuation:
 				new_line+=i	
-		line = new_line			
-		## Do sentence correction
 		
+		# check if tweet is already added in our dictionary
 		if(new_line in tweets):
 			continue
 		else:
 			tweets[new_line] = 1
-		if(len(new_line.strip())>0):
-			WRITE_HANDLER.write(new_line + '\n\n')				
+
+		new_line = new_line.strip()
+		paraTokenCount += len(new_line.split())
+
+		if paraTokenCount > 1000:
+			WRITE_HANDLER.write(para + '\n')
+			para = ''''''
+			paraTokenCount = 0
+		else:
+			para += new_line + '.'
+
+		# if(len(new_line.strip())>0):
+		# 	WRITE_HANDLER.write(new_line + '.')
+	
+	if paraTokenCount <= 1000:
+		WRITE_HANDLER.write(para)
 	return filename
 
 CWD = os.getcwd()		
@@ -49,8 +64,5 @@ for root, dirs, files in os.walk(DATA_FOLDER): # gets all the files from subfold
 	for name in files:
 		absolute_path = os.path.join(root, name)
 		print(name, absolute_path)
-		if os.path.isfile(absolute_path) and name != ".DS_Store":
-			filename = clean(absolute_path, name)
-			
-					
-
+		if os.path.isfile(absolute_path):
+			clean(absolute_path, name)

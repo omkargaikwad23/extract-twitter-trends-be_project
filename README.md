@@ -1,5 +1,4 @@
 
-	 
 1. `TrendingHashtags.py`
 	Collect currently trending hashtags. 
 	To run: TrendingHashtags.py > hashtags.txt
